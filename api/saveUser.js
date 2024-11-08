@@ -23,6 +23,11 @@ db.connect((err) => {
   console.log("Connected to MySQL database");
 });
 
+// Default route to confirm API is working
+app.get("/", (req, res) => {
+  res.send("Express API is running successfully!");
+});
+
 // Define an endpoint to save user details
 app.post("/api/saveUser", (req, res) => {
   const { email, name, image } = req.body;
