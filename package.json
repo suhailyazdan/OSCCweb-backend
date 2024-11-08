@@ -1,15 +1,10 @@
 {
   "name": "osccbackend",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "OSCC Express API",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon api/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
