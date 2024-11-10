@@ -36,10 +36,9 @@ app.get("/", (req, res) => {
 
 // Define an endpoint to save user details
 app.post("/saveUser", (req, res) => {
-  const { email, name, image } = req.body;
-  console.log("Received data:", req.body);  // Log received data
+  const { email, name } = req.body;
+  console.log("Received data:", req.body);
 
-  // Check if user already exists
   const checkQuery = "SELECT * FROM users WHERE email = ?";
   db.query(checkQuery, [email], (checkError, results) => {
     if (checkError) {
@@ -52,9 +51,8 @@ app.post("/saveUser", (req, res) => {
       return res.status(409).send("User already exists");
     }
 
-    // If user doesn't exist, insert new record
-    const insertQuery = "INSERT INTO users (email, name, image) VALUES (?, ?, ?)";
-    db.query(insertQuery, [email, name, image], (insertError, insertResult) => {
+    const insertQuery = "INSERT INTO users (email, name) VALUES (?, ?)";
+    db.query(insertQuery, [email, name], (insertError, insertResult) => {
       if (insertError) {
         console.error("Insert error:", insertError);
         return res.status(500).send(insertError);
