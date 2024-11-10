@@ -4,7 +4,13 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: ["https://osccweb.vercel.app"],
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Set up MySQL connection
@@ -31,21 +37,30 @@ app.get("/", (req, res) => {
 // Define an endpoint to save user details
 app.post("/saveUser", (req, res) => {
   const { email, name, image } = req.body;
+  console.log("Received data:", req.body);  // Log received data
 
   // Check if user already exists
   const checkQuery = "SELECT * FROM users WHERE email = ?";
   db.query(checkQuery, [email], (checkError, results) => {
-    if (checkError) return res.status(500).send(checkError);
+    if (checkError) {
+      console.error("Database error:", checkError);
+      return res.status(500).send(checkError);
+    }
 
     if (results.length > 0) {
+      console.log("User already exists");
       return res.status(409).send("User already exists");
     }
 
     // If user doesn't exist, insert new record
     const insertQuery = "INSERT INTO users (email, name, image) VALUES (?, ?, ?)";
     db.query(insertQuery, [email, name, image], (insertError, insertResult) => {
-      if (insertError) return res.status(500).send(insertError);
+      if (insertError) {
+        console.error("Insert error:", insertError);
+        return res.status(500).send(insertError);
+      }
 
+      console.log("User saved successfully:", insertResult);
       res.status(201).send("User saved successfully");
     });
   });
