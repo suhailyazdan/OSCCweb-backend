@@ -25,3 +25,5 @@ next-env.d.ts
 #extras
 /extra
 /.env
+
+.vercel

@@ -51,5 +51,7 @@ app.post("/saveUser", (req, res) => {
   });
 });
 
+app.listen(3510, () => console.log("Server ready on port 3510."));
+
 // Export the Express app as a serverless function
 module.exports = app;
